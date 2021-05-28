@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ post.title }} | {% endblock %}
+
+{% block content %}
+<div class="container">
+
+<br>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'frontpage' %}">Главная</a></li>
+      {% if post.category.parent %}
+      <li class="breadcrumb-item"><a href="{% url 'category_detail' post.category.parent.slug %}">{{ post.category.parent.title }}</a></li>
+
+      {% endif %}
+      <li class="breadcrumb-item"><a href="{% url 'category_detail' post.category.slug %}">{{ post.category.title }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
+    </ol>
+  </nav>
+
+<!--
+<a href="{% url 'delete_post' post.slug %}">Remove</a>|
+<a href="{% url 'update_post' post.slug %}">Update</a>-->
+
+
+<h1>{{ post.title }} </h1>
+          <small class="card-text text-muted ">Автор:
+            {{ post.author }} |
+            {{ post.date_added }}          
+          </small>
+
+        {% if user.is_authenticated %}
+          {% if user.id == post.author.id %}
+            <small><a href="{% url 'update_post' post.slug %}"> <i class="fas fa-pen pl-2 pr-3"></i></a>    |      
+            <a href="{% url 'delete_post' post.slug %}"><i class="fas fa-trash-alt pl-3"></i></a></small>
+            {% endif %}
+          {% endif %}
+           
+          <br/>
+          <hr>
+          
+        {% if post.header_image %}
+          <img class="d-block w-100" src="{{ post.header_image.url }}"   >
+        {% endif %}
+        <br/>
+        <p>{{ post.body|safe }}</p>
+        <br/>
+        
+        <a href="{% url 'frontpage' %}"class="btn btn-outline-secondary" ><i class="fas fa-long-arrow-alt-left"></i> Назад </a>
+
+        <br/>
+        
+
+
+        <br/>
+
+
+ 
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    {% if previous_post %}
+                        <a href="{% url 'post_detail' post.category.slug previous_post.slug %}" >
+                        <i class="fas fa-angle-left pr-1"></i> {{ previous_post.title }}
+                        </a>
+                      {% else %}
+                        Это первый пост!
+                      {% endif %}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        {% if next_post %}
+                        <p align="right">
+                        <a  href="{% url 'post_detail' post.category.slug next_post.slug %}" align="right" >
+                          {{ next_post.title }}<i class="fas fa-angle-right pl-1"></i>
+                        </a></p>
+                      {% else %}
+                        Это последний пост!
+                      {% endif %}
+                  </td>
+                </tr>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+              </tbody>
+            </table>
+
+            <form action="{% url 'like_post' post.pk %}" method="POST">
+              <h4>Была ли полезна статья?</h4>
+              <br/>
+              {% csrf_token %}
+                {% if user.is_authenticated %}
+                  <button type="submit" name="post_id" value="{{ post.id }}" class="btn {% if user in post.likes.all %}btn btn-secondary{% else %}btn btn-outline-info{% endif %} ">Like <i class="fas fa-thumbs-up"></i></button>
+                {% else %}
+                <a href="{% url 'login' %}"><i class="fas fa-sign-out-alt"></i> Войдите</a><small>  что бы оценить</small>
+                {% endif %}
+                  <h4><p align="right">Нравится: {{ post.likes.count }}</p></h4>
+              </form>
+              <br/>
+  				<h3>Опубликовал:</h3><br>
+              <div class="container">
+                <div class="row main-row p-2">
+                  <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="blog-img">
+                      {% if post.author.profile.profile_pic %}
+                      <img src="{{ post.author.profile.profile_pic.url }}" alt="nature" class="img-fluid">
+                        {% else %}
+                        <img src="{% static '/theblog/images/default-user.png' %}" alt="nature" class="img-fluid">
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 mb-2">
+                        <ul class="list-group list-group-horizontal ul-cls">
+                            {% if post.author.profile.website_url %}
+                          <li class="list-group-item"><a href="{{ post.author.profile.website_url }}"><i class="fab fa-chrome fa-2x"></i></a></li>
+                            {% else %}
+                          <li class="list-group-item"><i class="material-icons">language</i></li>
+                            {% endif %}
+              
+                            {% if post.author.profile.instagram_url %}
+                          <li class="list-group-item"><a href="{{ post.author.profile.instagram_url }}"><i class="fab fa-instagram fa-2x"></i></a></li>
+                          {% else %}
+                          <li class="list-group-item"><i class="material-icons">language</i></li>
+                          {% endif %}
+              
+                            {% if post.author.profile.twitter_url %}
+                          <li class="list-group-item"><a href="{{ post.author.profile.twitter_url }}"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+                          {% else %}
+                            <li class="list-group-item"><i class="material-icons">language</i></li>
+                          {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="blog-title mb-3">
+                      <h3>{{ post.author }}</h3>
+                    </div>
+                    
+                    <div class="blog-desc mb-2">
+                      {%  if post.author.profile.id %}
+                      <div class="blog-date mb-2">
+                        <span>{{ post.author.profile.status }}</span>
+                      </div>
+                      <p > {{ post.author.profile.bio }} </p>
+                      {% else %}
+                      <p>ulum issim eu orci sit amum pellentesque diam. Suspendisse a pharetra orci. In lobortis dsdsdsdsdsdsdsds dsds ds </p>
+                      {% endif %}
+                    <div class="blog-read-more mb-2">
+                      {%  if post.author.profile.id %}
+                      <a href="{% url 'show_profile_page' post.author.profile.id %}" class="btn btn-outline-dark" >Перейти в профиль</a>
+                      {% else %}
+                        <button class="btn btn-outline-dark">Read more</button>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <h2>Коментарии:</h2>
+              {% if not post.comments.all %}
+                Пока нет коментариев...
+              {% endif %}
+          
+              {% for comment in post.comments.all %}
+              <hr>
+              <div class="comments" style="padding: 5px;">
+                <p class="font-weight-bold">
+                  {{ comment.name }}
+                  <span class=" text-muted font-weight-normal">
+                   - {{ comment.date_added }}
+                  </span>
+                </p>
+                {{ comment.body | linebreaks }}
+              </div>
+              {% endfor %}
+              <hr>
+              <h2>Добавить Коментарий:</h2>
+      <br/>
+
+      <div class="form-group">
+      <form method="POST"  >
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+      <button class="btn btn-secondary">Публиковать</button>
+      </form>
+      </div>
+    </div>
+{% endblock %}

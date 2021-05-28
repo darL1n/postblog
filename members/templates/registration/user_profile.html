@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="hero-section spad">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-10 offset-xl-1">
+      <div class="row">
+        <div class="col-lg-6">
+          <figure class="hero-image">
+            {% if page_user.profile_pic %}
+            <img src="{{ page_user.profile_pic.url }}" alt="5">
+            {% else %}
+              <img src="{% static '/theblog/images/default-user.png' %}" alt="5"  >
+            {% endif %}
+          </figure>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-text">
+            <h2>{{ page_user.user }}</h2>
+
+            <p>{{ page_user.bio }}</p>
+          </div>
+          <div class="hero-info">
+            <h2>Главная Информация</h2>
+            <ul>
+              <li><span>Имя</span>{{ page_user.user.first_name }}</li>
+              <li><span>Фамилия</span>{{ page_user.user.last_name }}</li>
+              <li><span>Дата Рождения</span>---</li>
+              <li><span>Адресс</span>Russia</li>
+              <li><span>E-mail</span>---</li>
+              <li><span>Возраст </span>{{ page_user.age }}</li>
+            </ul>
+          </div>
+          <div class="hero-social">
+            <h2>Мои социальные сети</h2>
+          <div class="col-sm-3 mb-2">
+          <div class="social-user">
+            <ul class="list-group list-group-horizontal ul-cls">
+              {% if page_user.website_url %}
+            <li class="users-item"><a href="{{ page_user.website_url }}"><i class="fab fa-chrome fa-2x"></i></a></li>
+              {% else %}
+            <li class="users-item"><i class="material-icons">language</i></li>
+              {% endif %}
+
+              {% if page_user.instagram_url %}
+            <li class="users-item"><a href="{{ page_user.instagram_url }}"><i class="fab fa-instagram fa-2x"></i></a></li>
+              {% else %}
+            <li class="users-item"><i class="material-icons">language</i></li>
+              {% endif %}
+
+              {% if page_user.twitter_url %}
+            <li class="users-item"><a href="{{ page_user.twitter_url }}"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+              {% else %}
+            <li class="users-item"><i class="material-icons">language</i></li>
+              {% endif %}
+
+
+          </ul>
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

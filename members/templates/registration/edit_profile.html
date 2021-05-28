@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+
+
+
+
+{% if user.is_authenticated %}
+
+    <h1>Настройки профиля</h1>
+    <br/>
+
+    {{ user.profile.bio }}
+    <br/>
+    <br/>
+    <div class="form-group">
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+    <button class="btn btn-secondary">Update Profile</button>
+    </form>
+    </div>
+
+  {% else %}
+    <h1>Ах ты читерюга:)</h1>
+  {% endif %}
+
+</div>
+
+{% endblock %}

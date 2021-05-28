@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <br/>
+  <h1>Привет {{ user.username }}</h1>
+  Сейчас: <strong>{{ curent_time }}</strong>
+  <h3>Календарь на {{ year }} {{ month }}</h3>
+</div>
+<center>
+  {{ cal|safe }}
+  <br/>
+  Это {{ month_number }}-ый месяц из 12 месяцев
+  <br/><br/>
+</center>
+<div class="container">
+  <h3>Выбрать другой месяц </h3>
+</div>
+<section class="month_list ml-4">
+  <div class="container_month">
+    <div class="row">
+      <div class="card mr-3 mt-2" style="width: 18rem;">
+        <div class="card-header">
+          Зима <i class="far fa-snowflake"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+          <a href="{% url 'cal_date' '2021' 'December' %}" class="list-group-item list-group-item-action list-group-item-light">Декабрь</a>
+          <a href="{% url 'cal_date' '2021' 'January' %}" class="list-group-item list-group-item-action list-group-item-light">Январь</a>
+          <a href="{% url 'cal_date' '2021' 'February' %}" class="list-group-item list-group-item-action list-group-item-light">Февраль</a>
+
+        </ul>
+      </div>
+      <div class="card mr-3 mt-2 " style="width: 18rem;">
+        <div class="card-header">
+          Весна <i class="fas fa-cloud-sun-rain"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+          <a href="{% url 'cal_date' '2021' 'March' %}" class="list-group-item list-group-item-action list-group-item-success">Март</a>
+          <a href="{% url 'cal_date' '2021' 'April' %}" class="list-group-item list-group-item-action list-group-item-success">Апрель</a>
+          <a href="{% url 'cal_date' '2021' 'May' %}" class="list-group-item list-group-item-action list-group-item-success">Май</a>
+        </ul>
+      </div>
+      <div class="card mr-3 mt-2" style="width: 18rem;">
+        <div class="card-header">
+          Лето <i class="fas fa-sun"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            <a href="{% url 'cal_date' '2021' 'June' %}" class="list-group-item list-group-item-action list-group-item-warning">Июнь</a>
+            <a href="{% url 'cal_date' '2021' 'July' %}" class="list-group-item list-group-item-action list-group-item-warning">Июль</a>
+            <a href="{% url 'cal_date' '2021' 'August' %}" class="list-group-item list-group-item-action list-group-item-warning">Август</a>
+        </ul>
+      </div>
+      <div class="card mr-3 mt-2" style="width: 18rem";>
+
+        <div class="card-header">
+          Осень <i class="fas fa-cloud-showers-heavy"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+          <a href="{% url 'cal_date' '2021' 'September' %}"class="list-group-item list-group-item-action list-group-item-secondary">Сентябрь</a>
+          <a href="{% url 'cal_date' '2021' 'October' %}" class="list-group-item list-group-item-action list-group-item-secondary">Октябрь</a>
+          <a href="{% url 'cal_date' '2021' 'November' %}"class="list-group-item list-group-item-action list-group-item-secondary">Ноябрь</a>
+        </ul>
+        </div>
+    </div>
+</div>
+
+</section>
+
+</div>
+{% endblock %}

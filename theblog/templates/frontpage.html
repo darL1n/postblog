@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Welcome | {% endblock %}
+  {% block content %}
+  <!--About us start -->
+<div class="aboutus">
+  <div class="container">
+    <h1>Миколюкс</h1>
+    <div class="row">
+      <div class="col">
+        <div class="text-3"><span class="typing"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="col-md-8 mt-3 left"><br/>
+  <h1>Список Статей</h1><br/>
+
+    {% for post in posts %}
+    <div class="card mb-4">
+      <div class="card-body">
+          <h2 class="card-title">{{ post.title }}</h2>
+
+          <p class="card-text text-muted h6">By: {{ post.author }} | Категория: {{ post.category }} | {{ post.date_added }}
+
+          </p>
+          <p class="card-text">{{ post.snippet }}</p>
+          <a href="{% url 'post_detail' post.category.slug post.slug %}" class="btn btn-info"><i class="fas fa-book-open pr-1"></i>Читать..</a>
+      </div>
+    </div>
+     <hr>
+      {% endfor %}
+</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if posts.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1"><i class="fas fa-angle-double-left"></i>начало</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}"><i class="fas fa-angle-left"></i>назад</a></li>
+    {% endif %}
+    <li class="page-item disabled"><a class="page-link" href="#"> {{ posts.number }} из {{ posts.paginator.num_pages }}.</a></li>
+    {% if posts.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">далее<i class="fas fa-angle-right"></i></a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ posts.paginator.num_pages }}">конец<i class="fas fa-angle-double-right"></i></a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+</div>
+
+<script>
+  $(document).ready(function(){
+    var typed = new Typed(".typing", {
+        strings: ["Каждый день становимся чуточку лучше..."],
+        typeSpeed: 100,
+        backSpeed: 60,
+        loop: true
+    });
+
+  });
+
+</script>
+
+  {% endblock %}

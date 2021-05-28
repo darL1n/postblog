@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Поиск{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<br>
+<h1><span class="badge badge-pill badge-light"><i class="fas fa-search"></i> Поиск</span></h1>
+		<form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search' %}">
+          <input class="form-control mr-sm-2" type="search" placeholder="Ввод..." aria-label="Search" name="query">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Поиск</button>
+        </form>
+<hr>
+<h3>Результаты поиска по слову: <span class="badge badge-pill badge-info">"{{ query }}"</span></h3>
+<hr>
+
+{% for post in posts %}
+<div class="container">
+
+
+
+        <div class="card mb-4">
+           <div class="card-body">
+               <h2 class="card-title">{{ post.title }}</h2>
+                 <p class="card-text text-muted h6">By: {{ post.author }} | Категория: {{ post.category }} | {{ post.date_added }}</p>
+                 <p class="card-text">{{ post.snippet }}</p>
+                 <a href="{% url 'post_detail' post.category.slug post.slug %}" class="btn btn-info"><i class="fas fa-book-open pr-1"></i>Читать..</a>
+           </div>
+        </div>
+
+
+
+</div>
+{% endfor %}
+<br><br><br><br><br><br>
+</div>
+{% endblock %}
